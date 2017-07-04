@@ -20,11 +20,13 @@ app.get('/users', (req, res) => {
 app.post('/users', (req, res) => {
     const body = _.pick(req.body, ['name', 'email', 'password']);
     const user = new User(body);
+
     user.save()
-    .then(user => {
-        res.send({user});
+    .then(() => user.generateAuthToken())
+    .then(token => {
+        res.header('x-auth', token).send(user); // Headers preceeded by 'x' are custom headers that are not necesserily supported by default http
     })
-    .catch(e => res.status(400).send({e}));
+    .catch(e => res.status(400).send(e));
 });
 
 app.listen(process.env.PORT, () => {
