@@ -2,11 +2,26 @@
   "name": "node-auth-sample",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "test": "export NODE_ENV=test && mocha src/**/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "lodash": "^4.17.4",
+    "mongodb": "^2.2.29",
+    "mongoose": "^4.11.1",
+    "validator": "^7.2.0"
+  },
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "mocha": "^3.4.2",
+    "supertest": "^3.0.0"
+  }
 }
