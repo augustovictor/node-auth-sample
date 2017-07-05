@@ -47,6 +47,24 @@ UserSchema.methods.toJSON = function() {
     return _.pick(userObject, ['_id', 'email']);
 };
 
+// .statics turns the method into a model method as opposed toan instance method.
+UserSchema.statics.findByToken = function(token) {
+    const User = this;
+    let decoded;
+
+    try{
+        decoded = jwt.verify(token, '123abc');
+    } catch(e) {
+        return Promise.reject(e);
+    }
+
+    return User.findOne({
+        _id: decoded._id,
+        'tokens.token': token,
+        'tokens.access': 'auth'
+    });
+}
+
 UserSchema.methods.generateAuthToken = function() {
     const user = this;
     const access = 'auth';

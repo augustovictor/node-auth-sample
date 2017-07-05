@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { User } = require('./src/models/user');
 const _ = require('lodash');
+const { authenticate } = require('./src/middleware/authenticate');
 
 const app = express();
 
@@ -15,6 +16,10 @@ app.get('/users', (req, res) => {
         res.send(users);
     })
     .catch(e => res.status(400).send(e));
+});
+
+app.get('/users/me', authenticate, (req, res) => {
+    res.send(req.user);
 });
 
 app.post('/users', (req, res) => {
