@@ -90,6 +90,15 @@ UserSchema.methods.generateAuthToken = function() {
     return user.save().then(() => token); // This value will be passed on to the next 'then' call. This is the value which will be added to a header.
 };
 
+UserSchema.methods.removeToken = function(token) {
+    const user = this;
+    return user.update({
+        // Removes object if attribute matches
+        $pull: { tokens: { token } }
+    });
+    
+};
+
 UserSchema.pre('save', function(next) {
     const user = this;
     if(user.isModified('password')) {

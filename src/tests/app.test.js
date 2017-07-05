@@ -128,3 +128,20 @@ describe('GET /users/me', () => {
         .end(done);
     });
 });
+
+describe('DELETE /users/me/token', () => {
+    it('should remove user auth token on logout', done => {
+        request(app)
+        .delete('/users/me/token')
+        .set('x-auth', usersSeed[0].tokens[0].token)
+        .expect(200)
+        .end((err, res) => {
+            if(err) return done(err);
+            User.findById(usersSeed[0]._id).then(user => {
+                console.log('asdfasdfasfasf');
+                expect(user.tokens.length).toBe(0);
+                done();
+            }).catch(e => done(e));
+        });
+    });
+});
