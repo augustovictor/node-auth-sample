@@ -1,9 +1,8 @@
 const { User } = require('../models/user');
-const { usersSeed, populateUsers } = require('./seed/seed');
-
 const { app } = require('../../app');
 const request = require('supertest');
 const expect = require('expect');
+const { usersSeed, populateUsers } = require('./seed/seed');
 
 beforeEach(populateUsers);
 

@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
 
+
 const usersSeed = [
     {
         _id: userOneId,
@@ -13,7 +14,7 @@ const usersSeed = [
         password: '123456',
         tokens: [{
             access: 'auth',
-            token: jwt.sign({ _id: userOneId, access: 'auth'}, '123abc').toString()
+            token: jwt.sign({ _id: userOneId, access: 'auth'}, process.env.JWT_SECRET).toString()
         }]
     }, {
         _id: userTwoId,
