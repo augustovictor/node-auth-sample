@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose  = require('mongoose');
 const validator = require('validator');
-const jwt = require('jsonwebtoken');
-const _ = require('lodash');
+const jwt       = require('jsonwebtoken');
+const _         = require('lodash');
+const bcrypt    = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -74,6 +75,20 @@ UserSchema.methods.generateAuthToken = function() {
 
     return user.save().then(() => token); // This value will be passed on to the next 'then' call. This is the value which will be added to a header.
 };
+
+UserSchema.pre('save', function(next) {
+    const user = this;
+    if(user.isModified('password')) {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(user.password, salt, (err, hash) => {
+                user.password = hash;
+                next();
+            });
+        });
+    } else {
+        next();
+    }
+});
 
 const User = mongoose.model('User', UserSchema);
 
