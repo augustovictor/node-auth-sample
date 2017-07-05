@@ -1,9 +1,9 @@
-const config = require('./src/config/config');
-const { mongoose } = require('./src/db/mongoose');
-const express = require('express');
-const bodyParser = require('body-parser');
-const { User } = require('./src/models/user');
-const _ = require('lodash');
+const config           = require('./src/config/config');
+const { mongoose }     = require('./src/db/mongoose');
+const express          = require('express');
+const bodyParser       = require('body-parser');
+const { User }         = require('./src/models/user');
+const _                = require('lodash');
 const { authenticate } = require('./src/middleware/authenticate');
 
 const app = express();

@@ -1,21 +1,11 @@
 const { User } = require('../models/user');
+const { usersSeed, populateUsers } = require('./seed/seed');
 
 const { app } = require('../../app');
 const request = require('supertest');
 const expect = require('expect');
 
-const UsersSeed = [
-    {name: 'User 1', email: 'user1@email.com', password: '123456'},
-    {name: 'User 2', email: 'user2@email.com', password: '123456'},
-    {name: 'User 3', email: 'user3@email.com', password: '123456'}
-];
-
-beforeEach(done => {
-    User.remove({})
-    .then(() => User.insertMany(UsersSeed))
-    .then(() => done())
-    .catch(e => done(e));
-});
+beforeEach(populateUsers);
 
 describe('GET /users', () => {
     it('should return an array of users', done => {
@@ -25,7 +15,7 @@ describe('GET /users', () => {
         .end((err, res) => {
             if (err) return done(err);
             expect(res.body).toBeA('array');
-            expect(res.body.length).toBe(3);
+            expect(res.body.length).toBe(2);
             done();
         });
     });
